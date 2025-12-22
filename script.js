@@ -1,15 +1,99 @@
-// Mobile menu toggle - исправленная версия
+// file name: script.js
+// Основной скрипт без кода слайдера
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Language switcher - добавьте этот элемент в header
+    const languageSwitcher = document.createElement('div');
+    languageSwitcher.className = 'language-switcher';
+    languageSwitcher.innerHTML = `
+        <button class="language-btn" data-lang="ru">
+            <i class="fas fa-globe"></i>
+            <span>RU</span>
+        </button>
+        <div class="language-dropdown">
+            <button class="language-option" data-lang="ru">Русский</button>
+            <button class="language-option" data-lang="en">English</button>
+            <button class="language-option" data-lang="he">עברית</button>
+        </div>
+    `;
+    
     // Theme switcher - добавьте этот элемент в header
     const themeSwitcher = document.createElement('button');
     themeSwitcher.id = 'themeSwitcher';
     themeSwitcher.className = 'theme-switcher-btn';
-    themeSwitcher.innerHTML = '<i class="fas fa-moon"></i><span>תצוגה כהה</span>';
+    themeSwitcher.innerHTML = '<i class="fas fa-moon"></i><span>Тёмная тема</span>';
     
-    // Добавляем переключатель темы в header
+    // Добавляем переключатели в header
     const headerContainer = document.querySelector('.header-container');
     if (headerContainer) {
-        headerContainer.appendChild(themeSwitcher);
+        // Создаем контейнер для кнопок
+        const headerControls = document.createElement('div');
+        headerControls.className = 'header-controls';
+        headerControls.appendChild(languageSwitcher);
+        headerControls.appendChild(themeSwitcher);
+        headerContainer.appendChild(headerControls);
+    }
+    
+    // Language management
+    function initLanguage() {
+        // Определяем язык из атрибута html
+        const htmlLang = document.documentElement.lang;
+        const savedLang = localStorage.getItem('language') || htmlLang;
+        
+        // Обновляем переключатель
+        updateLanguageSwitcher(savedLang);
+        
+        // Если язык не русский и отличается от текущего, меняем
+        if (savedLang !== htmlLang && savedLang !== 'ru') {
+            changeLanguage(savedLang);
+        }
+    }
+    
+    function changeLanguage(lang) {
+        // Если уже на нужном языке, не меняем
+        if (document.documentElement.lang === lang) return;
+        
+        // Определяем URL для нового языка
+        let newUrl = window.location.href;
+        
+        if (lang === 'ru') {
+            newUrl = newUrl.replace(/index2\.html$/, 'index.html')
+                          .replace(/index-en\.html$/, 'index.html');
+        } else if (lang === 'he') {
+            newUrl = newUrl.replace(/index\.html$/, 'index2.html')
+                          .replace(/index-en\.html$/, 'index2.html');
+        } else if (lang === 'en') {
+            // Для английской версии потребуется создать index-en.html
+            newUrl = newUrl.replace(/index\.html$/, 'index-en.html')
+                          .replace(/index2\.html$/, 'index-en.html');
+        }
+        
+        // Сохраняем язык
+        localStorage.setItem('language', lang);
+        
+        // Переходим на нужную страницу
+        if (newUrl !== window.location.href) {
+            window.location.href = newUrl;
+        }
+    }
+    
+    function updateLanguageSwitcher(lang) {
+        const languageBtn = document.querySelector('.language-btn');
+        if (languageBtn) {
+            const icon = languageBtn.querySelector('i');
+            const text = languageBtn.querySelector('span');
+            
+            if (lang === 'ru') {
+                text.textContent = 'RU';
+                languageBtn.setAttribute('data-lang', 'ru');
+            } else if (lang === 'en') {
+                text.textContent = 'EN';
+                languageBtn.setAttribute('data-lang', 'en');
+            } else if (lang === 'he') {
+                text.textContent = 'HE';
+                languageBtn.setAttribute('data-lang', 'he');
+            }
+        }
     }
     
     // Theme management
@@ -24,14 +108,31 @@ document.addEventListener('DOMContentLoaded', function() {
             const icon = themeSwitcher.querySelector('i');
             const text = themeSwitcher.querySelector('span');
             
+            // Получаем текущий язык
+            const currentLang = document.documentElement.lang;
+            
             if (theme === 'light') {
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
-                text.textContent = 'תצוגה בהירה';
+                // Текст в зависимости от языка
+                if (currentLang === 'he') {
+                    text.textContent = 'תצוגה בהירה';
+                } else if (currentLang === 'en') {
+                    text.textContent = 'Light theme';
+                } else {
+                    text.textContent = 'Светлая тема';
+                }
             } else {
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
-                text.textContent = 'תצוגה כהה';
+                // Текст в зависимости от языка
+                if (currentLang === 'he') {
+                    text.textContent = 'תצוגה כהה';
+                } else if (currentLang === 'en') {
+                    text.textContent = 'Dark theme';
+                } else {
+                    text.textContent = 'Тёмная тема';
+                }
             }
         }
     }
@@ -43,13 +144,34 @@ document.addEventListener('DOMContentLoaded', function() {
         updateThemeSwitcher(theme);
     }
     
+    // Обработчики для переключателя языка
+    document.addEventListener('click', function(e) {
+        const languageBtn = document.querySelector('.language-btn');
+        const languageDropdown = document.querySelector('.language-dropdown');
+        
+        if (languageBtn && languageBtn.contains(e.target)) {
+            languageDropdown.classList.toggle('show');
+        } else if (languageDropdown && !languageDropdown.contains(e.target)) {
+            languageDropdown.classList.remove('show');
+        }
+        
+        // Обработка выбора языка
+        if (e.target.classList.contains('language-option')) {
+            const lang = e.target.getAttribute('data-lang');
+            changeLanguage(lang);
+            languageDropdown.classList.remove('show');
+        }
+    });
+    
     if (themeSwitcher) {
         themeSwitcher.addEventListener('click', toggleTheme);
     }
     
-    // Инициализируем тему
+    // Инициализируем язык и тему
+    initLanguage();
     initTheme();
     
+    // Mobile menu
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mainNav = document.getElementById('mainNav');
     
@@ -142,198 +264,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Новый улучшенный слайдер галереи с бесконечным пролистыванием
-    const galleryTrack = document.getElementById('galleryTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    if (galleryTrack && prevBtn && nextBtn) {
-        let position = 0;
-        let autoSlideInterval;
-        let slidesPerView = 1;
-        
-        // Получаем все слайды
-        const slides = document.querySelectorAll('.gallery-slide');
-        
-        // Функция для определения количества видимых слайдов
-        function getSlidesPerView() {
-            const width = window.innerWidth;
-            if (width <= 768) {
-                return 1; // 1 слайд на мобильных
-            } else if (width <= 992) {
-                return 2; // 2 слайда на планшетах
-            } else {
-                return 3; // 3 слайда на десктопе
-            }
-        }
-        
-        // Функция для обновления слайдера
-        function updateSlider() {
-            if (slides.length === 0) return;
-            
-            // Обновляем количество видимых слайдов
-            slidesPerView = getSlidesPerView();
-            
-            // Рассчитываем ширину слайда (включая gap)
-            const slideStyle = window.getComputedStyle(slides[0]);
-            const slideWidth = slides[0].offsetWidth;
-            const gap = 20; // Фиксированный gap из CSS
-            const itemTotalWidth = slideWidth + gap;
-            
-            // Применяем трансформацию
-            galleryTrack.style.transform = `translateX(${position * itemTotalWidth}px)`;
-            
-            // Обновляем состояние кнопок
-            updateButtonsState();
-            
-            // Добавляем/убираем активный класс для текущих слайдов
-            slides.forEach((slide, index) => {
-                if (index >= position && index < position + slidesPerView) {
-                    slide.classList.add('active');
-                } else {
-                    slide.classList.remove('active');
-                }
-            });
-        }
-        
-        // Функция для обновления состояния кнопок
-        function updateButtonsState() {
-            // Для бесконечного слайдера кнопки всегда активны
-            prevBtn.disabled = false;
-            nextBtn.disabled = false;
-        }
-        
-        // Функция для перехода к следующему слайду
-        function nextSlide() {
-            if (slides.length === 0) return;
-            
-            position++;
-            
-            // Если достигли конца, переходим к началу
-            if (position > slides.length - slidesPerView) {
-                position = 0;
-                // Плавный переход к началу
-                galleryTrack.style.transition = 'none';
-                galleryTrack.style.transform = `translateX(${position * (slides[0].offsetWidth + 20)}px)`;
-                
-                // Сбрасываем transition после перемотки
-                setTimeout(() => {
-                    galleryTrack.style.transition = 'transform 0.5s ease-in-out';
-                }, 50);
-            }
-            
-            updateSlider();
-        }
-        
-        // Функция для перехода к предыдущему слайду
-        function prevSlide() {
-            if (slides.length === 0) return;
-            
-            position--;
-            
-            // Если достигли начала, переходим к концу
-            if (position < 0) {
-                position = slides.length - slidesPerView;
-                // Плавный переход к концу
-                galleryTrack.style.transition = 'none';
-                galleryTrack.style.transform = `translateX(${position * (slides[0].offsetWidth + 20)}px)`;
-                
-                // Сбрасываем transition после перемотки
-                setTimeout(() => {
-                    galleryTrack.style.transition = 'transform 0.5s ease-in-out';
-                }, 50);
-            }
-            
-            updateSlider();
-        }
-        
-        // Автоматическое слайд-шоу
-        function startAutoSlide() {
-            clearInterval(autoSlideInterval);
-            autoSlideInterval = setInterval(() => {
-                nextSlide();
-            }, 4000); // 4 секунды между слайдами
-        }
-        
-        function stopAutoSlide() {
-            clearInterval(autoSlideInterval);
-        }
-        
-        // Назначаем обработчики для кнопок
-        prevBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            stopAutoSlide();
-            nextSlide(); // ← двигает вперед
-            startAutoSlide();
-        });
-        
-        nextBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            stopAutoSlide();
-            prevSlide(); // → двигает назад
-            startAutoSlide();
-        });
-        
-        // Swipe для мобильных устройств
-        let startX = 0;
-        let endX = 0;
-        let isSwiping = false;
-        
-        galleryTrack.addEventListener('touchstart', function(e) {
-            startX = e.touches[0].clientX;
-            isSwiping = true;
-            stopAutoSlide();
-        });
-        
-        galleryTrack.addEventListener('touchmove', function(e) {
-            if (!isSwiping) return;
-            endX = e.touches[0].clientX;
-        });
-        
-        galleryTrack.addEventListener('touchend', function() {
-            if (!isSwiping) return;
-            
-            const diff = startX - endX;
-            const minSwipe = 50; // Минимальная дистанция свайпа
-            
-            if (Math.abs(diff) > minSwipe) {
-                if (diff > 0) {
-                    // Свайп влево - следующий слайд
-                    nextSlide();
-                } else {
-                    // Свайп вправо - предыдущий слайд
-                    prevSlide();
-                }
-            }
-            
-            isSwiping = false;
-            startAutoSlide();
-        });
-        
-        // Автослайд при загрузке
-        startAutoSlide();
-        
-        // Останавливаем автослайд при наведении
-        galleryTrack.addEventListener('mouseenter', stopAutoSlide);
-        galleryTrack.addEventListener('mouseleave', startAutoSlide);
-        prevBtn.addEventListener('mouseenter', stopAutoSlide);
-        nextBtn.addEventListener('mouseenter', stopAutoSlide);
-        prevBtn.addEventListener('mouseleave', startAutoSlide);
-        nextBtn.addEventListener('mouseleave', startAutoSlide);
-        
-        // Обновляем при изменении размера окна
-        let resizeTimer;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                updateSlider();
-            }, 250);
-        });
-        
-        // Инициализация слайдера
-        updateSlider();
-    }
-    
     // Add active class to nav links on scroll
     window.addEventListener('scroll', function() {
         const scrollPos = window.scrollY + 100;
@@ -355,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Add smooth hover effects to all buttons
-    const allButtons = document.querySelectorAll('.btn, .slider-btn, .social-icon, .theme-switcher-btn');
+    const allButtons = document.querySelectorAll('.btn, .slider-btn, .social-icon, .theme-switcher-btn, .language-btn');
     allButtons.forEach(button => {
         button.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-2px)';

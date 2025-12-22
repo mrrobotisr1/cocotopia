@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cocatopia - Магазин товаров в Telegram</title>
-    <meta name="description" content="Магазин в Telegram - качество, надежность и быстрый сервис" />
+    <title data-translate="site-title">Cocatopia - Магазин товаров в Telegram</title>
+    <meta name="description" data-translate="site-description" content="Магазин в Telegram - качество, надежность и быстрый сервис" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -24,27 +24,28 @@
                 <i class="fas fa-bars"></i>
             </button>
             <nav class="main-nav" id="mainNav">
-                <a href="#hero" class="nav-link active">
+                <a href="#hero" class="nav-link active" data-translate="nav-home">
                     <i class="fas fa-home"></i>
                     <span>Главная</span>
                 </a>
-                <a href="#categories" class="nav-link">
+                <a href="#categories" class="nav-link" data-translate="nav-categories">
                     <i class="fas fa-th-large"></i>
                     <span>Категории</span>
                 </a>
-                <a href="#features" class="nav-link">
+                <a href="#features" class="nav-link" data-translate="nav-features">
                     <i class="fas fa-star"></i>
                     <span>Преимущества</span>
                 </a>
-                <a href="#gallery" class="nav-link">
+                <a href="#gallery" class="nav-link" data-translate="nav-gallery">
                     <i class="fas fa-images"></i>
                     <span>Галерея</span>
                 </a>
-                <a href="#contact" class="nav-link">
+                <a href="#contact" class="nav-link" data-translate="nav-contact">
                     <i class="fas fa-comments"></i>
                     <span>Связаться</span>
                 </a>
             </nav>
+            <!-- Переключатели будут добавлены через JavaScript -->
         </div>
     </header>
 
@@ -52,32 +53,32 @@
     <section class="hero" id="hero">
         <div class="container hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Магазин товаров <br>№1 в Telegram</h1>
-                <p class="hero-subtitle">Качество без компромиссов, быстрый сервис и полная анонимность. Мы предоставляем лучшие товары с полной гарантией.</p>
+                <h1 class="hero-title" data-translate="hero-title">Магазин товаров <br>№1 в Telegram</h1>
+                <p class="hero-subtitle" data-translate="hero-subtitle">Качество без компромиссов, быстрый сервис и полная анонимность. Мы предоставляем лучшие товары с полной гарантией.</p>
                 
                 <div class="hero-stats">
                     <div class="stat-item">
                         <div class="stat-value">100%</div>
-                        <div class="stat-label">Анонимность</div>
+                        <div class="stat-label" data-translate="hero-stat-1">Анонимность</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value">24/7</div>
-                        <div class="stat-label">Сервис</div>
+                        <div class="stat-label" data-translate="hero-stat-2">Сервис</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value">99%</div>
-                        <div class="stat-label">Надежность</div>
+                        <div class="stat-label" data-translate="hero-stat-3">Надежность</div>
                     </div>
                 </div>
                 
                 <div class="hero-buttons">
                     <a href="https://t.me/Cocatopia_tlv" target="_blank" class="btn btn-primary">
                         <i class="fab fa-telegram-plane"></i>
-                        <span>Перейти в Telegram</span>
+                        <span data-translate="hero-btn-telegram">Перейти в Telegram</span>
                     </a>
                     <a href="#categories" class="btn btn-secondary">
                         <i class="fas fa-box-open"></i>
-                        <span>Смотреть товары</span>
+                        <span data-translate="hero-btn-products">Смотреть товары</span>
                     </a>
                 </div>
             </div>
@@ -99,8 +100,8 @@
     <section class="section" id="categories">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Категории товаров</h2>
-                <p class="section-subtitle">Выбирайте из нашего широкого ассортимента качественных товаров</p>
+                <h2 class="section-title" data-translate="categories-title">Категории товаров</h2>
+                <p class="section-subtitle" data-translate="categories-subtitle">Выбирайте из нашего широкого ассортимента качественных товаров</p>
             </div>
             
             <div class="categories-grid">
@@ -108,54 +109,54 @@
                     <div class="category-icon" style="background: rgba(234, 67, 53, 0.1); color: #EA4335;">
                         <i class="fas fa-snowflake"></i>
                     </div>
-                    <h3 class="category-title">Кокаин</h3>
-                    <p class="category-description">Премиум качество, чистый и очищенный</p>
-                    <span class="category-badge">Популярный</span>
+                    <h3 class="category-title" data-translate="category-cocaine">Кокаин</h3>
+                    <p class="category-description" data-translate="category-cocaine-desc">Премиум качество, чистый и очищенный</p>
+                    <span class="category-badge" data-translate="badge-popular">Популярный</span>
                 </div>
                 
                 <div class="category-card">
                     <div class="category-icon" style="background: rgba(66, 133, 244, 0.1); color: var(--primary-blue);">
                         <i class="fas fa-pills"></i>
                     </div>
-                    <h3 class="category-title">Экстази</h3>
-                    <p class="category-description">Качественные таблетки из надежного источника</p>
-                    <span class="category-badge">Новый</span>
+                    <h3 class="category-title" data-translate="category-ecstasy">Экстази</h3>
+                    <p class="category-description" data-translate="category-ecstasy-desc">Качественные таблетки из надежного источника</p>
+                    <span class="category-badge" data-translate="badge-new">Новый</span>
                 </div>
                 
                 <div class="category-card">
                     <div class="category-icon" style="background: rgba(52, 168, 83, 0.1); color: #34A853;">
                         <i class="fas fa-cannabis"></i>
                     </div>
-                    <h3 class="category-title">Каннабис</h3>
-                    <p class="category-description">Особые сорта, отличное качество</p>
-                    <span class="category-badge">Рекомендуем</span>
+                    <h3 class="category-title" data-translate="category-cannabis">Каннабис</h3>
+                    <p class="category-description" data-translate="category-cannabis-desc">Особые сорта, отличное качество</p>
+                    <span class="category-badge" data-translate="badge-recommended">Рекомендуем</span>
                 </div>
                 
                 <div class="category-card">
                     <div class="category-icon" style="background: rgba(251, 188, 5, 0.1); color: #FBBC05;">
                         <i class="fas fa-syringe"></i>
                     </div>
-                    <h3 class="category-title">Кетамин</h3>
-                    <p class="category-description">Жидкий, качественный и чистый</p>
-                    <span class="category-badge">Акция</span>
+                    <h3 class="category-title" data-translate="category-ketamine">Кетамин</h3>
+                    <p class="category-description" data-translate="category-ketamine-desc">Жидкий, качественный и чистый</p>
+                    <span class="category-badge" data-translate="badge-sale">Акция</span>
                 </div>
 
                 <div class="category-card">
                     <div class="category-icon" style="background: rgba(168, 52, 158, 0.1); color: #A8349E;">
                         <i class="fas fa-capsules"></i>
                     </div>
-                    <h3 class="category-title">Амфетамин</h3>
-                    <p class="category-description">Концентрированная энергия, гарантированное качество</p>
-                    <span class="category-badge">Качественный</span>
+                    <h3 class="category-title" data-translate="category-amphetamine">Амфетамин</h3>
+                    <p class="category-description" data-translate="category-amphetamine-desc">Концентрированная энергия, гарантированное качество</p>
+                    <span class="category-badge" data-translate="badge-quality">Качественный</span>
                 </div>
 
                 <div class="category-card">
                     <div class="category-icon" style="background: rgba(0, 150, 255, 0.1); color: #0096FF;">
                         <i class="fas fa-seedling"></i>
                     </div>
-                    <h3 class="category-title">Волшебные грибы</h3>
-                    <p class="category-description">Качественные и проверенные псилоцибиновые грибы</p>
-                    <span class="category-badge">Особый опыт</span>
+                    <h3 class="category-title" data-translate="category-mushrooms">Волшебные грибы</h3>
+                    <p class="category-description" data-translate="category-mushrooms-desc">Качественные и проверенные псилоцибиновые грибы</p>
+                    <span class="category-badge" data-translate="badge-special">Особый опыт</span>
                 </div>
             </div>
         </div>
@@ -165,8 +166,8 @@
     <section class="section" id="features">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Почему мы лучшие?</h2>
-                <p class="section-subtitle">Лидирующий сервис на рынке с преимуществами, которые нельзя игнорировать</p>
+                <h2 class="section-title" data-translate="features-title">Почему мы лучшие?</h2>
+                <p class="section-subtitle" data-translate="features-subtitle">Лидирующий сервис на рынке с преимуществами, которые нельзя игнорировать</p>
             </div>
             
             <div class="features-grid">
@@ -174,48 +175,48 @@
                     <div class="feature-icon">
                         <i class="fas fa-shipping-fast"></i>
                     </div>
-                    <h3 class="feature-title">Быстрая доставка</h3>
-                    <p class="feature-description">Экспресс-доставка в течение 24 часов в выбранные районы. Полная анонимность на протяжении всего пути.</p>
+                    <h3 class="feature-title" data-translate="feature-delivery">Быстрая доставка</h3>
+                    <p class="feature-description" data-translate="feature-delivery-desc">Экспресс-доставка в течение 24 часов в выбранные районы. Полная анонимность на протяжении всего пути.</p>
                 </div>
                 
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3 class="feature-title">Безопасность и анонимность</h3>
-                    <p class="feature-description">Наша система защищена передовым шифрованием. Ваша конфиденциальность важнее всего.</p>
+                    <h3 class="feature-title" data-translate="feature-security">Безопасность и анонимность</h3>
+                    <p class="feature-description" data-translate="feature-security-desc">Наша система защищена передовым шифрованием. Ваша конфиденциальность важнее всего.</p>
                 </div>
                 
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-medal"></i>
                     </div>
-                    <h3 class="feature-title">Гарантия качества</h3>
-                    <p class="feature-description">Все наши товары проверяются в лаборатории перед отправкой. Качество без компромиссов.</p>
+                    <h3 class="feature-title" data-translate="feature-quality">Гарантия качества</h3>
+                    <p class="feature-description" data-translate="feature-quality-desc">Все наши товары проверяются в лаборатории перед отправкой. Качество без компромиссов.</p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-headset"></i>
                     </div>
-                    <h3 class="feature-title">Сервис 24/7</h3>
-                    <p class="feature-description">Доступны для вас круглосуточно, каждый день.</p>
+                    <h3 class="feature-title" data-translate="feature-service">Сервис 24/7</h3>
+                    <p class="feature-description" data-translate="feature-service-desc">Доступны для вас круглосуточно, каждый день.</p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-tags"></i>
                     </div>
-                    <h3 class="feature-title">Конкурентные цены</h3>
-                    <p class="feature-description">Лучшие цены на рынке со специальными предложениями для постоянных клиентов.</p>
+                    <h3 class="feature-title" data-translate="feature-prices">Конкурентные цены</h3>
+                    <p class="feature-description" data-translate="feature-prices-desc">Лучшие цены на рынке со специальными предложениями для постоянных клиентов.</p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-handshake"></i>
                     </div>
-                    <h3 class="feature-title">Полная гарантия</h3>
-                    <p class="feature-description">Гарантия на все товары, которые мы поставляем. Гарантированное удовлетворение.</p>
+                    <h3 class="feature-title" data-translate="feature-warranty">Полная гарантия</h3>
+                    <p class="feature-description" data-translate="feature-warranty-desc">Гарантия на все товары, которые мы поставляем. Гарантированное удовлетворение.</p>
                 </div>
             </div>
         </div>
@@ -225,20 +226,20 @@
     <section class="section gallery-section" id="gallery">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Галерея товаров</h2>
-                <p class="section-subtitle">Демонстрация наших самых популярных товаров</p>
+                <h2 class="section-title" data-translate="gallery-title">Галерея товаров</h2>
+                <p class="section-subtitle" data-translate="gallery-subtitle">Демонстрация наших самых популярных товаров</p>
             </div>
             
             <div class="gallery-slider">
                 <div class="gallery-track" id="galleryTrack">
                     <!-- Слайд 1 -->
                     <div class="gallery-slide">
-                        <div class="product-badge">Популярный</div>
+                        <div class="product-badge" data-translate="badge-popular">Популярный</div>
                         <div class="product-image-container">
                             <img src="images/cocaine.png" alt="Кокаин Премиум" class="product-image">
                             <!-- Текст поверх изображения (постоянно видимый) -->
                             <div class="product-text-overlay">
-                                <h4 class="overlay-product-name">Кокаин Премиум</h4>
+                                <h4 class="overlay-product-name" data-translate="product-cocaine">Кокаин Премиум</h4>
                                 <div class="product-rating overlay-product-rating">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -246,19 +247,19 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star-half-alt"></i>
                                 </div>
-                                <p class="overlay-description">Качество без компромиссов, чистый и очищенный</p>
+                                <p class="overlay-description" data-translate="product-cocaine-desc">Качество без компромиссов, чистый и очищенный</p>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Слайд 2 -->
                     <div class="gallery-slide">
-                        <div class="product-badge">Новый</div>
+                        <div class="product-badge" data-translate="badge-new">Новый</div>
                         <div class="product-image-container">
                             <img src="images/ecstasy.png" alt="Экстази Качественный" class="product-image">
                             <!-- Текст поверх изображения (постоянно видимый) -->
                             <div class="product-text-overlay">
-                                <h4 class="overlay-product-name">Экстази Качественный</h4>
+                                <h4 class="overlay-product-name" data-translate="product-ecstasy">Экстази Качественный</h4>
                                 <div class="product-rating overlay-product-rating">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -266,19 +267,19 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <p class="overlay-description">Особые таблетки с длительным эффектом</p>
+                                <p class="overlay-description" data-translate="product-ecstasy-desc">Особые таблетки с длительным эффектом</p>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Слайд 3 -->
                     <div class="gallery-slide">
-                        <div class="product-badge">Рекомендуем</div>
+                        <div class="product-badge" data-translate="badge-recommended">Рекомендуем</div>
                         <div class="product-image-container">
                             <img src="images/cannabis.png" alt="Каннабис Особый" class="product-image">
                             <!-- Текст поверх изображения (постоянно видимый) -->
                             <div class="product-text-overlay">
-                                <h4 class="overlay-product-name">Каннабис Особый</h4>
+                                <h4 class="overlay-product-name" data-translate="product-cannabis">Каннабис Особый</h4>
                                 <div class="product-rating overlay-product-rating">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -286,19 +287,19 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <p class="overlay-description">Редкие сорта, уникальный вкус и аромат</p>
+                                <p class="overlay-description" data-translate="product-cannabis-desc">Редкие сорта, уникальный вкус и аромат</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Слайд 4 -->
                     <div class="gallery-slide">
-                        <div class="product-badge">Качественный</div>
+                        <div class="product-badge" data-translate="badge-quality">Качественный</div>
                         <div class="product-image-container">
                             <img src="images/ketamine.png" alt="Кетамин Чистый" class="product-image">
                             <!-- Текст поверх изображения (постоянно видимый) -->
                             <div class="product-text-overlay">
-                                <h4 class="overlay-product-name">Кетамин Чистый</h4>
+                                <h4 class="overlay-product-name" data-translate="product-ketamine">Кетамин Чистый</h4>
                                 <div class="product-rating overlay-product-rating">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -306,7 +307,7 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <p class="overlay-description">Жидкий и очищенный, лабораторное качество</p>
+                                <p class="overlay-description" data-translate="product-ketamine-desc">Жидкий и очищенный, лабораторное качество</p>
                             </div>
                         </div>
                     </div>
@@ -314,10 +315,10 @@
                 
                 <div class="slider-controls">
                     <button class="slider-btn" id="prevBtn">
-                        <i class="fas fa-chevron-right"></i>
+                        <i class="fas fa-chevron-left"></i>
                     </button>
                     <button class="slider-btn" id="nextBtn">
-                        <i class="fas fa-chevron-left"></i>
+                        <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
@@ -330,8 +331,8 @@
             <div class="contact-section">
                 <div class="contact-container">
                     <div class="contact-info">
-                        <h2>Свяжитесь сейчас</h2>
-                        <p>Присоединяйтесь к нашему Telegram-каналу и наслаждайтесь персональным сервисом, специальными предложениями и качеством, которое вы не найдете больше нигде.</p>
+                        <h2 data-translate="contact-title">Свяжитесь сейчас</h2>
+                        <p data-translate="contact-subtitle">Присоединяйтесь к нашему Telegram-каналу и наслаждайтесь персональным сервисом, специальными предложениями и качеством, которое вы не найдете больше нигде.</p>
                         
                         <div class="contact-details">
                             <div class="contact-item">
@@ -339,7 +340,7 @@
                                     <i class="fab fa-telegram-plane"></i>
                                 </div>
                                 <div>
-                                    <h4>Telegram</h4>
+                                    <h4 data-translate="contact-telegram">Telegram</h4>
                                     <p>Cocatopia</p>
                                 </div>
                             </div>
@@ -349,7 +350,7 @@
                                     <i class="fas fa-clock"></i>
                                 </div>
                                 <div>
-                                    <h4>Доступен 24/7</h4>
+                                    <h4 data-translate="contact-available">Доступен 24/7</h4>
                                     <p>Сервис доступен круглосуточно</p>
                                 </div>
                             </div>
@@ -359,15 +360,15 @@
                                     <i class="fas fa-headset"></i>
                                 </div>
                                 <div>
-                                    <h4>Поддержка</h4>
-                                    <p>Сервис и поддержка на русском языке</p>
+                                    <h4 data-translate="contact-support">Поддержка</h4>
+                                    <p data-translate="contact-support-text">Сервис и поддержка на русском языке</p>
                                 </div>
                             </div>
                         </div>
                         
                         <a href="https://t.me/Cocatopia_tlv" target="_blank" class="btn btn-primary" style="margin-top: 30px;">
                             <i class="fab fa-telegram-plane"></i>
-                            <span>Написать в Telegram</span>
+                            <span data-translate="contact-btn-telegram">Написать в Telegram</span>
                         </a>
                     </div>
                 </div>
@@ -376,107 +377,110 @@
     </section>
 
     <!-- Подвал -->
-<footer class="site-footer">
-    <div class="container">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <div class="footer-logo">
-                    <img src="images/cocatopia.png" alt="Cocatopia Logo" class="footer-logo-image">
-                    <span class="footer-logo-text">Cocatopia</span>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="images/cocatopia.png" alt="Cocatopia Logo" class="footer-logo-image">
+                        <span class="footer-logo-text">Cocatopia</span>
+                    </div>
+                    <p class="footer-description" data-translate="footer-description">
+                        Ведущий магазин товаров в Telegram. Качество, надежность и быстрый сервис.
+                        Мы стремимся обеспечить лучший опыт для наших клиентов.
+                    </p>
+                    <a href="https://t.me/Cocatopia_tlv" target="_blank" class="btn btn-telegram">
+                        <i class="fab fa-telegram-plane"></i>
+                        <span data-translate="footer-btn-telegram">Перейти в Telegram</span>
+                    </a>
                 </div>
-                <p class="footer-description">
-                    Ведущий магазин товаров в Telegram. Качество, надежность и быстрый сервис.
-                    Мы стремимся обеспечить лучший опыт для наших клиентов.
-                </p>
-                <a href="https://t.me/Cocatopia_tlv" target="_blank" class="btn btn-telegram">
-                    <i class="fab fa-telegram-plane"></i>
-                    <span>Перейти в Telegram</span>
-                </a>
+                
+                <div class="footer-links-container">
+                    <div class="footer-column">
+                        <h3 class="footer-title" data-translate="footer-nav-title">Быстрая навигация</h3>
+                        <ul class="footer-list">
+                            <li><a href="#hero" data-translate="nav-home">Главная</a></li>
+                            <li><a href="#categories" data-translate="nav-categories">Категории</a></li>
+                            <li><a href="#features" data-translate="nav-features">Преимущества</a></li>
+                            <li><a href="#gallery" data-translate="nav-gallery">Галерея</a></li>
+                            <li><a href="#contact" data-translate="nav-contact">Связаться</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3 class="footer-title" data-translate="footer-categories-title">Категории</h3>
+                        <ul class="footer-list">
+                            <li><a href="#categories" data-translate="category-cocaine">Кокаин</a></li>
+                            <li><a href="#categories" data-translate="category-ecstasy">Экстази</a></li>
+                            <li><a href="#categories" data-translate="category-cannabis">Каннабис</a></li>
+                            <li><a href="#categories" data-translate="category-ketamine">Кетамин</a></li>
+                            <li><a href="#categories" data-translate="category-mushrooms">Волшебные грибы</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3 class="footer-title" data-translate="footer-service-title">Сервис</h3>
+                        <ul class="footer-list">
+                            <li><a href="#contact" data-translate="footer-privacy">Политика конфиденциальности</a></li>
+                            <li><a href="#contact" data-translate="footer-terms">Условия использования</a></li>
+                            <li><a href="https://t.me/Cocatopia_tlv" target="_blank" data-translate="footer-faq">Частые вопросы</a></li>
+                            <li><a href="https://t.me/Cocatopia_tlv" target="_blank" data-translate="footer-support">Техническая поддержка</a></li>
+                            <li><a href="https://t.me/Cocatopia_tlv" target="_blank" data-translate="footer-returns">Возвраты</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3 class="footer-title" data-translate="footer-contact-title">Связаться</h3>
+                        <ul class="footer-list">
+                            <li>
+                                <span data-translate="footer-service-24">
+                                    <i class="fas fa-clock"></i>
+                                    Сервис 24/7
+                                </span>
+                            </li>
+                            <li>
+                                <span data-translate="footer-support-lang">
+                                    <i class="fas fa-headset"></i>
+                                    Поддержка на русском
+                                </span>
+                            </li>
+                            <li>
+                                <a href="https://t.me/Cocatopia_tlv" target="_blank" style="color: var(--text-secondary); text-decoration: none;">
+                                    <span>
+                                        <i class="fab fa-telegram-plane"></i>
+                                        Cocatopia
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <span data-translate="footer-anonymity">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Гарантированная анонимность
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             
-            <div class="footer-links-container">
-                <div class="footer-column">
-                    <h3 class="footer-title">Быстрая навигация</h3>
-                    <ul class="footer-list">
-                        <li><a href="#hero">Главная</a></li>
-                        <li><a href="#categories">Категории</a></li>
-                        <li><a href="#features">Преимущества</a></li>
-                        <li><a href="#gallery">Галерея</a></li>
-                        <li><a href="#contact">Связаться</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3 class="footer-title">Категории</h3>
-                    <ul class="footer-list">
-                        <li><a href="#categories">Кокаин</a></li>
-                        <li><a href="#categories">Экстази</a></li>
-                        <li><a href="#categories">Каннабис</a></li>
-                        <li><a href="#categories">Кетамин</a></li>
-                        <li><a href="#categories">Волшебные грибы</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3 class="footer-title">Сервис</h3>
-                    <ul class="footer-list">
-                        <li><a href="#contact">Политика конфиденциальности</a></li>
-                        <li><a href="#contact">Условия использования</a></li>
-                        <li><a href="https://t.me/Cocatopia_tlv" target="_blank">Частые вопросы</a></li>
-                        <li><a href="https://t.me/Cocatopia_tlv" target="_blank">Техническая поддержка</a></li>
-                        <li><a href="https://t.me/Cocatopia_tlv" target="_blank">Возвраты</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3 class="footer-title">Связаться</h3>
-                    <ul class="footer-list">
-                        <li>
-                            <span>
-                                <i class="fas fa-clock"></i>
-                                Сервис 24/7
-                            </span>
-                        </li>
-                        <li>
-                            <span>
-                                <i class="fas fa-headset"></i>
-                                Поддержка на русском
-                            </span>
-                        </li>
-                        <li>
-                            <a href="https://t.me/Cocatopia_tlv" target="_blank" style="color: var(--text-secondary); text-decoration: none;">
-                                <span>
-                                    <i class="fab fa-telegram-plane"></i>
-                                    Cocatopia
-                                </span>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="copyright" data-translate="footer-copyright">© 2023 Cocatopia Все права защищены.</p>
+                    <div class="footer-extra">
+                        <p class="disclaimer" data-translate="footer-disclaimer">Сайт предназначен только для информационных целей.</p>
+                        <div class="footer-social">
+                            <a href="https://t.me/Cocatopia_tlv" target="_blank" class="social-icon">
+                                <i class="fab fa-telegram-plane"></i>
                             </a>
-                        </li>
-                        <li>
-                            <span>
-                                <i class="fas fa-shield-alt"></i>
-                                Гарантированная анонимность
-                            </span>
-                        </li>
-                    </ul>
-                                    </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <div class="footer-bottom-content">
-                <p class="copyright">© 2023 Cocatopia Все права защищены.</p>
-                <div class="footer-extra">
-                    <p class="disclaimer">Сайт предназначен только для информационных целей.</p>
-                    <div class="footer-social">
-                        <a href="https://t.me/Cocatopia_tlv" target="_blank" class="social-icon">
-                            <i class="fab fa-telegram-plane"></i>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
+
+    <script src="translations.js"></script>
     <script src="script.js"></script>
+    <script src="slider.js"></script>
 </body>
 </html>
