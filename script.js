@@ -36,45 +36,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Language management
     function initLanguage() {
-        // Определяем язык из атрибута html
-        const htmlLang = document.documentElement.lang;
-        const savedLang = localStorage.getItem('language') || htmlLang;
-        
-        // Обновляем переключатель
-        updateLanguageSwitcher(savedLang);
-        
-        // Если язык не русский и отличается от текущего, меняем
-        if (savedLang !== htmlLang && savedLang !== 'ru') {
-            changeLanguage(savedLang);
-        }
+        const savedLang = localStorage.getItem('language') || 'ru';
+        // применяем язык сразу, без переходов по страницам
+        changeLanguage(savedLang);
     }
-    
+        
     function changeLanguage(lang) {
-        // Если уже на нужном языке, не меняем
-        if (document.documentElement.lang === lang) return;
-        
-        // Определяем URL для нового языка
-        let newUrl = window.location.href;
-        
-        if (lang === 'ru') {
-            newUrl = newUrl.replace(/index2\.html$/, 'index.html')
-                          .replace(/index-en\.html$/, 'index.html');
-        } else if (lang === 'he') {
-            newUrl = newUrl.replace(/index\.html$/, 'index2.html')
-                          .replace(/index-en\.html$/, 'index2.html');
-        } else if (lang === 'en') {
-            // Для английской версии потребуется создать index-en.html
-            newUrl = newUrl.replace(/index\.html$/, 'index-en.html')
-                          .replace(/index2\.html$/, 'index-en.html');
-        }
-        
-        // Сохраняем язык
+        if (!translations || !translations[lang]) return;
+
+        // сохраняем язык
         localStorage.setItem('language', lang);
-        
-        // Переходим на нужную страницу
-        if (newUrl !== window.location.href) {
-            window.location.href = newUrl;
-        }
+
+        // ставим lang/dir (для RTL уже есть стили в style.css)
+        document.documentElement.lang = lang;
+        document.documentElement.dir = (lang === 'he') ? 'rtl' : 'ltr';
+
+        // обновляем кнопку языка (RU/EN/HE)
+        updateLanguageSwitcher(lang);
+
+        // применяем переводы так, чтобы НЕ ломать структуру меню/кнопок
+        applyTranslations(lang);
+
+        // обновляем текст кнопки темы под текущий язык
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        updateThemeSwitcher(currentTheme);
+
+        // если слайдер зависит от RTL/языка — переинициализируем
+        if (window.initSlider) window.initSlider();
     }
     
     function updateLanguageSwitcher(lang) {
@@ -296,3 +284,77 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+// ===== LANGUAGE SWITCH WITHOUT PAGE RELOAD =====
+
+function applyLanguage(lang) {
+    if (!translations[lang]) return;
+
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
+    localStorage.setItem('language', lang);
+
+    document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.dataset.translate;
+        if (translations[lang][key]) {
+            if (el.tagName === 'META') {
+                el.setAttribute('content', translations[lang][key]);
+            } else {
+                el.innerHTML = translations[lang][key];
+            }
+        }
+    });
+
+    // 🔥 ПЕРЕИНИЦИАЛИЗИРУЕМ СЛАЙДЕР ДЛЯ ИВРИТА
+    if (window.initSlider) {
+        initSlider();
+    }
+}
+
+// init
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('language') || 'ru';
+    applyLanguage(savedLang);
+
+    document.querySelectorAll('[data-lang]').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            applyLanguage(link.dataset.lang);
+        });
+    });
+});
+function applyTranslations(lang) {
+    const dict = translations[lang];
+    if (!dict) return;
+
+    document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        const value = dict[key];
+        if (!value) return;
+
+        // meta description
+        if (el.tagName === 'META') {
+            el.setAttribute('content', value);
+            return;
+        }
+
+        // ВАЖНО: НЕ ломаем ссылки меню и кнопки с иконками:
+        // если внутри есть <i> и <span>, переводим ТОЛЬКО span
+        const hasIcon = el.querySelector('i');
+        const directSpan = el.querySelector(':scope > span');
+
+        if (hasIcon && directSpan) {
+            directSpan.innerHTML = value;
+            return;
+        }
+
+        // обычные элементы можно переводить целиком
+        el.innerHTML = value;
+    });
+
+    // title — лучше отдельно
+    const titleEl = document.querySelector('title[data-translate]');
+    if (titleEl) {
+        const key = titleEl.getAttribute('data-translate');
+        if (dict[key]) document.title = dict[key];
+    }
+}

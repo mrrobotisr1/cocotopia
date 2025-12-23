@@ -1,283 +1,136 @@
-// file name: slider.js
-// Простой рабочий слайдер для галереи с циклическим переключением
-document.addEventListener('DOMContentLoaded', function() {
-    const galleryTrack = document.getElementById('galleryTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const slides = document.querySelectorAll('.gallery-slide');
-    
-    if (!galleryTrack || !prevBtn || !nextBtn || slides.length === 0) {
-        console.error('Элементы слайдера не найдены');
-        return;
+document.addEventListener('DOMContentLoaded', () => {
+  const track = document.getElementById('galleryTrack');
+  const viewport = document.getElementById('galleryViewport') || track?.parentElement;
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsWrap = document.getElementById('sliderDots');
+  const progress = document.getElementById('sliderProgress');
+
+  if (!track || !viewport || !prevBtn || !nextBtn) return;
+
+  const slides = Array.from(track.querySelectorAll('.gallery-slide'));
+  if (!slides.length) return;
+
+  const isRTL = () => document.documentElement.lang === 'he' || document.documentElement.dir === 'rtl';
+
+  let index = 0;
+  let timer = null;
+
+  function slideWidth() {
+    // шаг = ширина слайда + gap
+    const s = slides[0];
+    const gap = parseFloat(getComputedStyle(track).gap || '0');
+    return s.getBoundingClientRect().width + gap;
+  }
+
+  function clamp(i) {
+    return Math.max(0, Math.min(slides.length - 1, i));
+  }
+
+  function setActive(i) {
+    index = clamp(i);
+    slides.forEach((el, idx) => el.classList.toggle('active', idx === index));
+
+    // dots
+    if (dotsWrap) {
+      dotsWrap.querySelectorAll('button').forEach((b, idx) => b.classList.toggle('active', idx === index));
     }
-    
-    // Определяем язык страницы
-    const isHebrew = document.documentElement.lang === 'he';
-    console.log(`Язык страницы: ${document.documentElement.lang}, Иврит: ${isHebrew}`);
-    
-    let currentSlide = 0;
-    const totalSlides = slides.length;
-    let autoSlideInterval;
-    let indicatorsContainer = null;
-    
-    console.log(`Слайдер инициализирован. Всего слайдов: ${totalSlides}`);
-    
-    // Инициализация слайдера
-    function initSlider() {
-        console.log('Инициализация слайдера...');
-        
-        // Сначала сбрасываем все стили
-        galleryTrack.style.transform = 'translateX(0)';
-        
-        // Убедимся, что все слайды имеют правильную ширину
-        const containerWidth = galleryTrack.parentElement.offsetWidth;
-        slides.forEach((slide, index) => {
-            slide.style.flex = '0 0 100%';
-            slide.style.minWidth = '100%';
-            slide.style.width = '100%';
-            
-            if (index === 0) {
-                slide.classList.add('active');
-                slide.style.opacity = '1';
-            } else {
-                slide.classList.remove('active');
-                slide.style.opacity = '0';
-            }
-        });
-        
-        // Обновляем состояние кнопок
-        updateButtonsState();
-        
-        // Создаем индикаторы
-        createIndicators();
-        
-        // Запускаем автослайд
-        startAutoSlide();
+
+    // progress
+    if (progress) {
+      const pct = ((index + 1) / slides.length) * 100;
+      progress.style.width = `${pct}%`;
     }
-    
-    // Обновление состояния кнопок
-    function updateButtonsState() {
-        // Для циклического слайдера кнопки никогда не отключаются
-        prevBtn.classList.remove('disabled');
-        nextBtn.classList.remove('disabled');
-        prevBtn.disabled = false;
-        nextBtn.disabled = false;
-    }
-    
-    // Создание индикаторов
-    function createIndicators() {
-        // Проверяем, не созданы ли уже индикаторы
-        const existingIndicators = document.querySelector('.slider-indicators');
-        if (existingIndicators) {
-            existingIndicators.remove();
+  }
+
+    function goTo(i) {
+        setActive(i);
+
+        const slide = slides[index];
+        const gap = parseFloat(getComputedStyle(track).gap || '0');
+
+        // целимся в центр
+        const targetLeft =
+            slide.offsetLeft - (viewport.clientWidth - slide.clientWidth) / 2 + gap / 2;
+
+        // RTL: инвертируем координату (иначе в иврите поедет не туда)
+        const left = (document.documentElement.dir === 'rtl')
+            ? (track.scrollWidth - viewport.clientWidth - targetLeft)
+            : targetLeft;
+
+        track.scrollTo({ left, behavior: 'smooth' });
         }
-        
-        indicatorsContainer = document.createElement('div');
-        indicatorsContainer.className = 'slider-indicators';
-        
-        for (let i = 0; i < totalSlides; i++) {
-            const indicator = document.createElement('button');
-            indicator.className = 'slider-indicator';
-            indicator.setAttribute('data-index', i);
-            
-            if (i === currentSlide) {
-                indicator.classList.add('active');
-            }
-            
-            indicator.addEventListener('click', function() {
-                const index = parseInt(this.getAttribute('data-index'));
-                goToSlide(index);
-            });
-            
-            indicatorsContainer.appendChild(indicator);
-        }
-        
-        // Добавляем индикаторы после слайдера
-        const sliderContainer = document.querySelector('.gallery-slider');
-        if (sliderContainer) {
-            sliderContainer.parentNode.insertBefore(indicatorsContainer, sliderContainer.nextSibling);
-        }
-    }
-    
-    // Обновление индикаторов
-    function updateIndicators() {
-        if (!indicatorsContainer) return;
-        
-        const indicators = indicatorsContainer.querySelectorAll('.slider-indicator');
-        indicators.forEach((indicator, index) => {
-            if (index === currentSlide) {
-                indicator.classList.add('active');
-            } else {
-                indicator.classList.remove('active');
-            }
-        });
-    }
-    
-    // Плавный переход к слайду
-    function goToSlide(index) {
-        if (index < 0 || index >= totalSlides) return;
-        
-        // Если индекс совпадает с текущим, ничего не делаем
-        if (index === currentSlide) return;
-        
-        console.log(`Переход к слайду ${index} (с ${currentSlide})`);
-        
-        // Анимация через opacity для надежности
-        const current = slides[currentSlide];
-        const next = slides[index];
-        
-        // Прячем текущий слайд
-        if (current) {
-            current.classList.remove('active');
-            current.style.opacity = '0';
-            current.style.transition = 'opacity 0.5s ease';
-        }
-        
-        // Показываем следующий слайд
-        if (next) {
-            next.classList.add('active');
-            next.style.opacity = '1';
-            next.style.transition = 'opacity 0.5s ease';
-            
-            // Для иврита может потребоваться сдвиг
-            if (isHebrew) {
-                // Для иврита используем transform
-                const translateX = -index * 100;
-                galleryTrack.style.transform = `translateX(${translateX}%)`;
-                galleryTrack.style.transition = 'transform 0.5s ease';
-            } else {
-                // Для других языков тоже используем transform
-                const translateX = -index * 100;
-                galleryTrack.style.transform = `translateX(${translateX}%)`;
-                galleryTrack.style.transition = 'transform 0.5s ease';
-            }
-        }
-        
-        // Обновляем текущий слайд
-        currentSlide = index;
-        
-        // Обновляем индикаторы
-        updateIndicators();
-        
-        // Перезапускаем автослайд
-        restartAutoSlide();
-    }
-    
-    // Следующий слайд с циклическим переходом
-    function nextSlide() {
-        console.log('nextSlide вызван, текущий слайд:', currentSlide);
-        const nextIndex = (currentSlide + 1) % totalSlides;
-        goToSlide(nextIndex);
-    }
-    
-    // Предыдущий слайд с циклическим переходом
-    function prevSlide() {
-        console.log('prevSlide вызван, текущий слайд:', currentSlide);
-        const prevIndex = (currentSlide - 1 + totalSlides) % totalSlides;
-        goToSlide(prevIndex);
-    }
-    
-    // Автослайд
-    function startAutoSlide() {
-        stopAutoSlide();
-        autoSlideInterval = setInterval(() => {
-            console.log('Автослайд: переход к следующему слайду');
-            nextSlide();
-        }, 5000); // Меняем слайд каждые 5 секунд
-    }
-    
-    function stopAutoSlide() {
-        if (autoSlideInterval) {
-            clearInterval(autoSlideInterval);
-        }
-    }
-    
-    function restartAutoSlide() {
-        stopAutoSlide();
-        startAutoSlide();
-    }
-    
-    // Обработчики событий для кнопок - простая версия
-    prevBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        console.log('Нажата кнопка prevBtn');
-        prevSlide();
+
+  function next() { goTo((index + 1) % slides.length); }
+  function prev() { goTo((index - 1 + slides.length) % slides.length); }
+
+  function buildDots() {
+    if (!dotsWrap) return;
+    dotsWrap.innerHTML = '';
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(b);
     });
-    
-    nextBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        console.log('Нажата кнопка nextBtn');
-        nextSlide();
+  }
+
+  function startAuto() {
+    stopAuto();
+    timer = setInterval(next, 4500);
+  }
+  function stopAuto() {
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
+
+  // Buttons
+  prevBtn.addEventListener('click', (e) => { e.preventDefault(); prev(); });
+  nextBtn.addEventListener('click', (e) => { e.preventDefault(); next(); });
+
+  // Pause on hover/touch
+  viewport.addEventListener('mouseenter', stopAuto);
+  viewport.addEventListener('mouseleave', startAuto);
+  viewport.addEventListener('touchstart', stopAuto, { passive: true });
+  viewport.addEventListener('touchend', startAuto, { passive: true });
+
+  // Update index on manual scroll (user swipes)
+  let scrollTick = null;
+  track.addEventListener('scroll', () => {
+    if (scrollTick) return;
+    scrollTick = requestAnimationFrame(() => {
+      scrollTick = null;
+      // ищем ближайший к центру viewport
+      const vp = viewport.getBoundingClientRect();
+      const center = vp.left + vp.width / 2;
+      let best = 0;
+      let bestDist = Infinity;
+
+      slides.forEach((s, i) => {
+        const r = s.getBoundingClientRect();
+        const c = r.left + r.width / 2;
+        const d = Math.abs(c - center);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+
+      setActive(best);
     });
-    
-    // Простой swipe без учета языка
-    let startX = 0;
-    let isSwiping = false;
-    
-    galleryTrack.addEventListener('touchstart', function(e) {
-        startX = e.touches[0].clientX;
-        isSwiping = true;
-        stopAutoSlide();
-    });
-    
-    galleryTrack.addEventListener('touchend', function(e) {
-        if (!isSwiping) return;
-        isSwiping = false;
-        
-        const endX = e.changedTouches[0].clientX;
-        const diff = startX - endX;
-        const minSwipe = 50;
-        
-        if (Math.abs(diff) > minSwipe) {
-            if (diff > 0) {
-                // Свайп влево - следующий слайд
-                nextSlide();
-            } else {
-                // Свайп вправо - предыдущий слайд
-                prevSlide();
-            }
-        }
-        
-        startAutoSlide();
-    });
-    
-    // Останавливаем автослайд при наведении
-    galleryTrack.addEventListener('mouseenter', stopAutoSlide);
-    galleryTrack.addEventListener('mouseleave', startAutoSlide);
-    prevBtn.addEventListener('mouseenter', stopAutoSlide);
-    nextBtn.addEventListener('mouseenter', stopAutoSlide);
-    prevBtn.addEventListener('mouseleave', startAutoSlide);
-    nextBtn.addEventListener('mouseleave', startAutoSlide);
-    
-    // Инициализация при загрузке
-    setTimeout(() => {
-        initSlider();
-    }, 100);
-    
-    // Также инициализируем при полной загрузке страницы
-    window.addEventListener('load', function() {
-        setTimeout(() => {
-            initSlider();
-        }, 100);
-    });
-    
-    // Обновление при изменении размера окна
-    window.addEventListener('resize', function() {
-        setTimeout(() => {
-            initSlider();
-        }, 100);
-    });
-    
-    // Дебаг функции
-    console.log('Для отладки используйте window.sliderDebug в консоли');
-    window.sliderDebug = {
-        getCurrentSlide: () => currentSlide,
-        getTotalSlides: () => totalSlides,
-        getLanguage: () => document.documentElement.lang,
-        isHebrew: () => isHebrew,
-        goToSlide: (index) => goToSlide(index),
-        nextSlide: () => nextSlide(),
-        prevSlide: () => prevSlide(),
-        initSlider: () => initSlider()
-    };
+  });
+
+  // Init
+  buildDots();
+  setActive(0);
+  startAuto();
+
+  // Re-init on resize
+  window.addEventListener('resize', () => {
+    // после ресайза просто возвращаем к текущему
+    goTo(index);
+  });
+
+  // Экспорт для твоего сменщика языка (если ты вызываешь initSlider())
+  window.initSlider = () => {
+    buildDots();
+    goTo(index);
+  };
 });

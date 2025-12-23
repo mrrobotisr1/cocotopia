@@ -3,51 +3,64 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-translate="site-title">Cocatopia - Магазин товаров в Telegram</title>
-    <meta name="description" data-translate="site-description" content="Магазин в Telegram - качество, надежность и быстрый сервис" />
+
+    <title data-translate="site-title">Cocatopia</title>
+    <meta name="description" data-translate="site-description" content="" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="gallery.css" />
 </head>
+
 <body>
-    <!-- Шапка -->
-    <header class="site-header">
-        <div class="container header-container">
-            <div class="logo">
-                <img src="images/cocatopia.png" alt="Cocatopia Logo" class="logo-image">
-                <span class="logo-text">Cocatopia</span>
-            </div>
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <nav class="main-nav" id="mainNav">
-                <a href="#hero" class="nav-link active" data-translate="nav-home">
-                    <i class="fas fa-home"></i>
-                    <span>Главная</span>
-                </a>
-                <a href="#categories" class="nav-link" data-translate="nav-categories">
-                    <i class="fas fa-th-large"></i>
-                    <span>Категории</span>
-                </a>
-                <a href="#features" class="nav-link" data-translate="nav-features">
-                    <i class="fas fa-star"></i>
-                    <span>Преимущества</span>
-                </a>
-                <a href="#gallery" class="nav-link" data-translate="nav-gallery">
-                    <i class="fas fa-images"></i>
-                    <span>Галерея</span>
-                </a>
-                <a href="#contact" class="nav-link" data-translate="nav-contact">
-                    <i class="fas fa-comments"></i>
-                    <span>Связаться</span>
-                </a>
-            </nav>
-            <!-- Переключатели будут добавлены через JavaScript -->
+
+<header class="site-header">
+    <div class="container header-container">
+
+        <div class="logo">
+            <img src="images/cocatopia.png" alt="Cocatopia Logo" class="logo-image">
+            <span class="logo-text">Cocatopia</span>
         </div>
-    </header>
+
+
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <nav class="main-nav" id="mainNav">
+            <a href="#hero" class="nav-link active">
+                <i class="fas fa-home"></i>
+                <span data-translate="nav-home">Главная</span>
+            </a>
+
+            <a href="#categories" class="nav-link">
+                <i class="fas fa-th-large"></i>
+                <span data-translate="nav-categories">Категории</span>
+            </a>
+
+            <a href="#features" class="nav-link">
+                <i class="fas fa-star"></i>
+                <span data-translate="nav-features">Преимущества</span>
+            </a>
+
+            <a href="#gallery" class="nav-link">
+                <i class="fas fa-images"></i>
+                <span data-translate="nav-gallery">Галерея</span>
+            </a>
+
+            <a href="#contact" class="nav-link">
+                <i class="fas fa-comments"></i>
+                <span data-translate="nav-contact">Связаться</span>
+            </a>
+        </nav>
+
+    </div>
+</header>
 
     <!-- Герой-секция -->
     <section class="hero" id="hero">

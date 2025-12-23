@@ -1,400 +1,224 @@
-/* file name: gallery.css */
-/* file content begin */
-/* ПЕРЕДЕЛАННЫЙ СЛАЙДЕР ГАЛЕРЕИ - ПРОСТОЙ И РАБОЧИЙ */
-.gallery-section {
-    padding: 80px 0;
-    background: radial-gradient(circle at 70% 30%, rgba(93, 156, 236, 0.05) 0%, transparent 50%);
+/* Modern gallery (generic) */
+.gallery-slider {
+  position: relative;
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border-color);
+  background: rgba(255,255,255,0.04);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 1050px;
+  margin: 0 auto;
 }
 
-.gallery-slider {
-    position: relative;
-    overflow: hidden;
-    border-radius: var(--radius-xl);
-    background: var(--card-bg);
-    padding: 0;
-    border: 2px solid var(--border-color);
-    box-shadow: var(--shadow-lg);
-    max-width: 1000px;
-    margin: 0 auto;
+.gallery-viewport {
+  overflow: hidden;
 }
 
 .gallery-track {
-    display: flex;
-    transition: transform 0.5s ease;
-    width: 100%;
-}
+  display: flex;
+  gap: 18px;
+  padding: 18px;
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 
-/* Слайд - 100% ширины для всех разрешений */
+  /* скрываем скроллбар */
+  scrollbar-width: none;
+}
+.gallery-track::-webkit-scrollbar { display: none; }
+
 .gallery-slide {
-    flex: 0 0 100%;
-    min-width: 100%;
-    position: relative;
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: var(--shadow-lg);
-    height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+  scroll-snap-align: center;
+  flex: 0 0 calc(33.333% - 12px);
+  min-width: calc(33.333% - 12px);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: var(--card-bg);
+  position: relative;
+  transform: translateZ(0);
+  box-shadow: var(--shadow-md);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 
-.gallery-slide.active {
-    opacity: 1;
-    border-color: var(--primary-cyan);
-    box-shadow: var(--shadow-glow);
+.gallery-slide:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(139,92,246,0.5);
 }
 
-/* Контейнер для изображения */
+/* картинка */
 .product-image-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, var(--card-bg) 0%, var(--light-bg) 100%);
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5; /* современная карточка */
+  background: linear-gradient(135deg, var(--card-bg), var(--light-bg));
+  overflow: hidden;
 }
 
 .product-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.03);
+  transition: transform .5s ease;
 }
+.gallery-slide:hover .product-image { transform: scale(1.08); }
 
-.gallery-slide.active .product-image {
-    transform: scale(1.05);
-}
-
-/* Градиентная маска */
+/* градиент для читаемого текста */
 .product-image-container::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 60%;
-    background: linear-gradient(to top, 
-        rgba(15, 23, 42, 0.95) 0%, 
-        rgba(15, 23, 42, 0.6) 40%, 
-        rgba(15, 23, 42, 0.3) 70%, 
-        transparent 100%);
-    z-index: 1;
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(80% 60% at 50% 25%, rgba(0,0,0,0.00), rgba(0,0,0,0.25)),
+    linear-gradient(to top, rgba(15,23,42,0.92), rgba(15,23,42,0.35), rgba(15,23,42,0.10));
+  pointer-events: none;
 }
 
 body.light-theme .product-image-container::after {
-    background: linear-gradient(to top, 
-        rgba(255, 255, 255, 0.95) 0%, 
-        rgba(255, 255, 255, 0.6) 40%, 
-        rgba(255, 255, 255, 0.3) 70%, 
-        transparent 100%);
+  background:
+    radial-gradient(80% 60% at 50% 25%, rgba(255,255,255,0.00), rgba(255,255,255,0.20)),
+    linear-gradient(to top, rgba(255,255,255,0.92), rgba(255,255,255,0.40), rgba(255,255,255,0.10));
 }
 
-/* Размытый оверлей с текстом */
+/* бейдж */
+.product-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  z-index: 3;
+}
+body.light-theme .product-badge {
+  background: rgba(255,255,255,0.55);
+  color: var(--light-text-primary);
+}
+
+/* текст */
 .product-text-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 30px;
-    z-index: 2;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px 18px 16px;
+  z-index: 2;
 }
 
 .overlay-product-name {
-    color: white;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    line-height: 1.2;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0 0 8px;
+  color: #fff;
 }
-
-body.light-theme .overlay-product-name {
-    color: var(--light-text-primary);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Звезды рейтинга */
-.product-rating {
-    margin-bottom: 15px;
-    display: flex;
-    gap: 2px;
-}
-
-.product-rating i {
-    color: var(--warning);
-    font-size: 1.2rem;
-}
-
-body.light-theme .product-rating i {
-    color: #FF9800;
-}
-
-body:not(.light-theme) .product-rating i {
-    color: #FFD700;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
-}
+body.light-theme .overlay-product-name { color: var(--light-text-primary); }
 
 .overlay-description {
-    color: rgba(255, 255, 255, 0.95);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin: 0;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    max-width: 80%;
+  margin: 0;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  max-width: 95%;
 }
+body.light-theme .overlay-description { color: rgba(17,24,39,0.78); }
 
-body.light-theme .overlay-description {
-    color: rgba(30, 41, 59, 0.95);
+.product-rating {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 10px;
 }
+.product-rating i { font-size: 1rem; color: #FFD700; }
 
-/* Бейдж продукта */
-.product-badge {
-    position: absolute;
-    top: 25px;
-    left: 25px;
-    background: var(--gradient-accent);
-    color: white;
-    padding: 10px 20px;
-    border-radius: var(--radius-md);
-    font-size: 0.9rem;
-    font-weight: 600;
-    z-index: 3;
-    box-shadow: var(--shadow-md);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Контролы слайдера */
+/* Controls */
 .slider-controls {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-    pointer-events: none;
-    z-index: 4;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  z-index: 5;
 }
 
 .slider-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: var(--radius-full);
-    background: var(--gradient-primary);
-    border: none;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-lg);
-    pointer-events: all;
-    opacity: 0.9;
+  pointer-events: all;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  transition: transform .2s ease, background .2s ease;
+}
+.slider-btn:hover { transform: scale(1.06); background: rgba(0,0,0,0.35); }
+
+body.light-theme .slider-btn {
+  background: rgba(255,255,255,0.60);
+  color: var(--light-text-primary);
 }
 
-.slider-btn:hover {
-    background: var(--gradient-accent);
-    transform: scale(1.1);
-    box-shadow: var(--shadow-lg);
-    opacity: 1;
+/* Dots + progress */
+.slider-ui {
+  padding: 12px 18px 18px;
+  display: grid;
+  gap: 10px;
 }
 
-.slider-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-    transform: none !important;
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.slider-dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255,255,255,0.25);
+  cursor: pointer;
+  transition: transform .2s ease, background .2s ease;
+}
+.slider-dots button.active {
+  background: rgba(139,92,246,0.95);
+  transform: scale(1.25);
 }
 
-.slider-btn:disabled:hover {
-    background: var(--gradient-primary);
-    transform: none !important;
+.slider-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  overflow: hidden;
+}
+.slider-progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--gradient-primary);
+  transition: width .25s ease;
 }
 
-/* Индикаторы слайдов */
-.slider-indicators {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 30px;
-}
-
-.slider-indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: var(--radius-full);
-    background: var(--text-muted);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 0;
-}
-
-.slider-indicator.active {
-    background: var(--primary-cyan);
-    transform: scale(1.3);
-}
-
-.slider-indicator:hover {
-    background: var(--primary-blue);
-}
-
-/* Адаптивность */
+/* Responsive */
 @media (max-width: 992px) {
-    .gallery-slide {
-        height: 450px;
-    }
-    
-    .overlay-product-name {
-        font-size: 1.5rem;
-    }
-    
-    .overlay-description {
-        font-size: 1rem;
-    }
-    
-    .slider-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
-    }
+  .gallery-slide { flex: 0 0 calc(50% - 9px); min-width: calc(50% - 9px); }
+}
+@media (max-width: 640px) {
+  .gallery-slide { flex: 0 0 100%; min-width: 100%; }
 }
 
-@media (max-width: 768px) {
-    .gallery-section {
-        padding: 60px 0;
-    }
-    
-    .gallery-slide {
-        height: 400px;
-    }
-    
-    .overlay-product-name {
-        font-size: 1.3rem;
-    }
-    
-    .overlay-description {
-        font-size: 0.95rem;
-        max-width: 90%;
-    }
-    
-    .product-badge {
-        top: 20px;
-        left: 20px;
-        padding: 8px 16px;
-        font-size: 0.85rem;
-    }
-    
-    .slider-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.2rem;
-        padding: 0 15px;
-    }
-}
-
-@media (max-width: 576px) {
-    .gallery-slide {
-        height: 350px;
-    }
-    
-    .overlay-product-name {
-        font-size: 1.2rem;
-        margin-bottom: 8px;
-    }
-    
-    .overlay-description {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-    
-    .product-rating i {
-        font-size: 1rem;
-    }
-    
-    .slider-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
-        padding: 0 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .gallery-slide {
-        height: 300px;
-    }
-    
-    .overlay-product-name {
-        font-size: 1.1rem;
-    }
-    
-    .overlay-description {
-        font-size: 0.85rem;
-    }
-    
-    .slider-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-    }
-}
-/* file content end */
-/* Добавьте в gallery.css */
-.gallery-track {
-    display: flex;
-    transition: transform 0.5s ease;
-    width: 100%;
-}
-
-.gallery-slide {
-    flex: 0 0 100%;
-    min-width: 100%;
-    position: relative;
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: var(--shadow-lg);
-    height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.gallery-slide.active {
-    opacity: 1;
-    border-color: var(--primary-cyan);
-    box-shadow: var(--shadow-glow);
-}
-
-/* Для RTL (иврит) */
-html[lang="he"] .gallery-slider {
-    direction: ltr; /* Важно: слайдер всегда слева направо */
-}
-
-html[lang="he"] .gallery-track {
-    direction: ltr; /* Слайдер всегда слева направо */
-}
-
-html[lang="he"] .slider-controls {
-    /* Стрелки остаются на своих местах */
-    left: 0;
-    right: 0;
-}
-
-/* Для иврита меняем логику стрелок через JavaScript */
-html[lang="he"] #prevBtn i {
-    transform: rotate(180deg); /* Поворачиваем стрелку */
-}
-
-html[lang="he"] #nextBtn i {
-    transform: rotate(180deg); /* Поворачиваем стрелку */
-}
+/* RTL: просто меняем направление скролла визуально (логика в JS ниже) */
+html[lang="he"] .gallery-track { direction: rtl; }
